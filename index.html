@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>cc-hooks-install — Claude Code hooks from any GitHub repo</title>
+    <meta
+      name="description"
+      content="Install Claude Code hooks from any GitHub repo with one command."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="min-h-screen">
+    <!-- Hero -->
+    <header class="max-w-3xl mx-auto px-6 pt-20 pb-16 text-center">
+      <pre
+        class="text-[var(--color-accent)] text-xs sm:text-sm leading-tight mb-8"
+        aria-hidden="true"
+      >
+██╗  ██╗ ██████╗  ██████╗ ██╗  ██╗███████╗
+██║  ██║██╔═══██╗██╔═══██╗██║ ██╔╝██╔════╝
+███████║██║   ██║██║   ██║█████╔╝ ███████╗
+██╔══██║██║   ██║██║   ██║██╔═██╗ ╚════██║
+██║  ██║╚██████╔╝╚██████╔╝██║  ██╗███████║
+╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚══════╝</pre
+      >
+      <p class="text-lg text-[var(--color-text)] mb-3">
+        Claude Code hooks from any GitHub repo
+      </p>
+      <p class="text-sm text-[var(--color-text-muted)] mb-8 max-w-lg mx-auto">
+        Install write-safety guardrails for CLI tools with one command. Authors
+        ship a
+        <code class="text-[var(--color-accent)]">claude-hooks.json</code> —
+        users install with npx.
+      </p>
+      <div
+        class="inline-block bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg px-6 py-3 mb-6"
+      >
+        <code class="text-sm text-[var(--color-text)]"
+          >$ npx cc-hooks-install add &lt;owner/repo&gt;</code
+        >
+      </div>
+      <div class="mt-4">
+        <a
+          href="https://github.com/sieteunoseis/cc-hooks-install"
+          class="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors"
+        >
+          GitHub &rarr;
+        </a>
+      </div>
+    </header>
+
+    <!-- Directory -->
+    <main class="max-w-3xl mx-auto px-6 pb-20">
+      <div class="flex items-center gap-3 mb-6">
+        <h2
+          class="text-sm uppercase tracking-wider text-[var(--color-text-muted)]"
+        >
+          Available Hooks
+        </h2>
+        <span
+          id="hook-count"
+          class="text-xs bg-[var(--color-surface)] border border-[var(--color-border)] rounded-full px-2 py-0.5 text-[var(--color-text-muted)]"
+        ></span>
+      </div>
+      <div id="hooks-list" class="space-y-3">
+        <p class="text-sm text-[var(--color-text-muted)]">Loading...</p>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="max-w-3xl mx-auto px-6 pb-12 text-center">
+      <p class="text-xs text-[var(--color-text-muted)]">
+        Built by
+        <a
+          href="https://github.com/sieteunoseis"
+          class="hover:text-[var(--color-accent)] transition-colors"
+          >sieteunoseis</a
+        >
+      </p>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

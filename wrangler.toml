@@ -1,0 +1,9 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "hooks-automate-builders"
+compatibility_date = "2024-12-01"
+pages_build_output_dir = "dist"
+
+[[kv_namespaces]]
+binding = "CC_HOOKS_REGISTRY"
+id = ""
+preview_id = ""

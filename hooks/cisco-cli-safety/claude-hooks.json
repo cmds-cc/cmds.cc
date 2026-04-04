@@ -1,0 +1,63 @@
+{
+  "name": "cisco-cli-safety",
+  "description": "Block write operations across all Cisco UC CLI tools — AXL, ISE, YANG, DIME, and AudioCodes",
+  "author": "sieteunoseis",
+  "version": "1.0.0",
+  "hooks": [
+    {
+      "name": "Block cisco-axl writes",
+      "description": "Blocks add, update, remove, execute, and sql update on Cisco CUCM via AXL",
+      "default": true,
+      "event": "PreToolUse",
+      "matcher": "Bash",
+      "hook": {
+        "type": "command",
+        "command": "jq -r '.tool_input.command' | { read -r cmd; if echo \"$cmd\" | grep -qE '^(npx )?cisco-axl (add|update|remove|execute|sql update)'; then echo '{\"decision\":\"block\",\"reason\":\"BLOCKED: cisco-axl write operation. Use --read-only or get explicit user approval.\"}'; fi; }"
+      }
+    },
+    {
+      "name": "Block cisco-ise writes",
+      "description": "Blocks add, update, delete, create, extend, suspend, and reinstate on Cisco ISE",
+      "default": true,
+      "event": "PreToolUse",
+      "matcher": "Bash",
+      "hook": {
+        "type": "command",
+        "command": "jq -r '.tool_input.command' | { read -r cmd; if echo \"$cmd\" | grep -qE '^(npx )?cisco-ise .*(add|update|delete|create|extend|suspend|reinstate) '; then echo '{\"decision\":\"block\",\"reason\":\"BLOCKED: cisco-ise write operation. Use --read-only or get explicit user approval.\"}'; fi; }"
+      }
+    },
+    {
+      "name": "Block cisco-yang writes",
+      "description": "Blocks set, delete, and rpc operations on IOS-XE devices via RESTCONF",
+      "default": true,
+      "event": "PreToolUse",
+      "matcher": "Bash",
+      "hook": {
+        "type": "command",
+        "command": "jq -r '.tool_input.command' | { read -r cmd; if echo \"$cmd\" | grep -qE '^(npx )?cisco-yang (set|delete|rpc) '; then echo '{\"decision\":\"block\",\"reason\":\"BLOCKED: cisco-yang write operation. Use --read-only or get explicit user approval.\"}'; fi; }"
+      }
+    },
+    {
+      "name": "Block audiocodes-cli writes",
+      "description": "Blocks device save and test-call dial/drop on AudioCodes SBCs",
+      "default": true,
+      "event": "PreToolUse",
+      "matcher": "Bash",
+      "hook": {
+        "type": "command",
+        "command": "jq -r '.tool_input.command' | { read -r cmd; if echo \"$cmd\" | grep -qE '^(npx )?audiocodes-cli (device save|test-call (dial|drop))'; then echo '{\"decision\":\"block\",\"reason\":\"BLOCKED: audiocodes-cli write operation. Get explicit user approval.\"}'; fi; }"
+      }
+    },
+    {
+      "name": "Block spok-api writes",
+      "description": "Blocks send-page, change-status, add, update, delete, assign, set, and datafeed on Spok SmartSuite",
+      "default": true,
+      "event": "PreToolUse",
+      "matcher": "Bash",
+      "hook": {
+        "type": "command",
+        "command": "jq -r '.tool_input.command' | { read -r cmd; if echo \"$cmd\" | grep -qE '^(npx )?spok-api (send-page|change-status|add |update |delete |assign |set |datafeed )'; then echo '{\"decision\":\"block\",\"reason\":\"BLOCKED: spok-api write operation. Get explicit user approval.\"}'; fi; }"
+      }
+    }
+  ]
+}

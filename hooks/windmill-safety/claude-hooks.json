@@ -58,6 +58,17 @@
         "type": "command",
         "command": "jq -r '.tool_input.command' | { read -r cmd; if echo \"$cmd\" | grep -qE '^wmill script push '; then echo '{\"decision\":\"block\",\"reason\":\"BLOCKED: wmill script push overrides remote versions. Get explicit user approval.\"}'; fi; }"
       }
+    },
+    {
+      "name": "Block script and flow execution",
+      "description": "Blocks wmill script run and wmill flow run which execute code on the remote Windmill instance",
+      "default": true,
+      "event": "PreToolUse",
+      "matcher": "Bash",
+      "hook": {
+        "type": "command",
+        "command": "jq -r '.tool_input.command' | { read -r cmd; if echo \"$cmd\" | grep -qE '^wmill (script|flow) run '; then echo '{\"decision\":\"block\",\"reason\":\"BLOCKED: wmill script/flow run executes code on the remote instance. Get explicit user approval.\"}'; fi; }"
+      }
     }
   ]
 }

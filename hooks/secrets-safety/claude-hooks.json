@@ -1,0 +1,52 @@
+{
+  "name": "secrets-safety",
+  "description": "Prevent exposure and mishandling of secrets — env files, vault, 1password, and printenv",
+  "author": "sieteunoseis",
+  "version": "1.0.0",
+  "hooks": [
+    {
+      "name": "Block cat/echo on secret files",
+      "description": "Prevents reading .env, .pem, .key, and credential files to stdout",
+      "default": true,
+      "event": "PreToolUse",
+      "matcher": "Bash",
+      "hook": {
+        "type": "command",
+        "command": "jq -r '.tool_input.command' | { read -r cmd; if echo \"$cmd\" | grep -qE '^(cat|less|more|head|tail|bat) .*\\.(env|pem|key|p12|pfx|jks)'; then echo '{\"decision\":\"block\",\"reason\":\"BLOCKED: reading a file that likely contains secrets. Use a secrets manager or get explicit approval.\"}'; fi; }"
+      }
+    },
+    {
+      "name": "Block printenv and env dump",
+      "description": "Prevents printenv and env commands which dump all environment variables including secrets",
+      "default": true,
+      "event": "PreToolUse",
+      "matcher": "Bash",
+      "hook": {
+        "type": "command",
+        "command": "jq -r '.tool_input.command' | { read -r cmd; if echo \"$cmd\" | grep -qE '^(printenv|env)$'; then echo '{\"decision\":\"block\",\"reason\":\"BLOCKED: dumping all environment variables can expose secrets. Query specific variables instead.\"}'; fi; }"
+      }
+    },
+    {
+      "name": "Block vault write and delete",
+      "description": "Prevents HashiCorp Vault write, delete, and destroy operations",
+      "default": true,
+      "event": "PreToolUse",
+      "matcher": "Bash",
+      "hook": {
+        "type": "command",
+        "command": "jq -r '.tool_input.command' | { read -r cmd; if echo \"$cmd\" | grep -qE '^vault (write|delete|destroy|kv (put|delete|destroy)) '; then echo '{\"decision\":\"block\",\"reason\":\"BLOCKED: vault write/delete modifies secrets storage. Get explicit user approval.\"}'; fi; }"
+      }
+    },
+    {
+      "name": "Block 1Password write operations",
+      "description": "Prevents op item create, edit, delete, and vault operations in 1Password CLI",
+      "default": true,
+      "event": "PreToolUse",
+      "matcher": "Bash",
+      "hook": {
+        "type": "command",
+        "command": "jq -r '.tool_input.command' | { read -r cmd; if echo \"$cmd\" | grep -qE '^op (item (create|edit|delete)|vault (create|delete)|document (create|edit|delete)) '; then echo '{\"decision\":\"block\",\"reason\":\"BLOCKED: 1Password write operation. Get explicit user approval.\"}'; fi; }"
+      }
+    }
+  ]
+}

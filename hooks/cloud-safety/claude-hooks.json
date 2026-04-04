@@ -1,0 +1,41 @@
+{
+  "name": "cloud-safety",
+  "description": "Block destructive AWS, GCP, and Azure CLI operations — instance termination, bucket deletion, IAM changes",
+  "author": "sieteunoseis",
+  "version": "1.0.0",
+  "hooks": [
+    {
+      "name": "Block AWS destructive operations",
+      "description": "Blocks aws ec2 terminate, s3 rb, s3 rm --recursive, rds delete, iam delete, and cloudformation delete",
+      "default": true,
+      "event": "PreToolUse",
+      "matcher": "Bash",
+      "hook": {
+        "type": "command",
+        "command": "jq -r '.tool_input.command' | { read -r cmd; if echo \"$cmd\" | grep -qE '^aws (ec2 terminate-instances|s3 rb |s3 rm .* --recursive|rds delete-db|iam delete-|cloudformation delete-stack|lambda delete-function|ecs delete-|eks delete-)'; then echo '{\"decision\":\"block\",\"reason\":\"BLOCKED: destructive AWS operation. Get explicit user approval.\"}'; fi; }"
+      }
+    },
+    {
+      "name": "Block GCP destructive operations",
+      "description": "Blocks gcloud compute instances delete, storage rm, sql instances delete, and iam changes",
+      "default": true,
+      "event": "PreToolUse",
+      "matcher": "Bash",
+      "hook": {
+        "type": "command",
+        "command": "jq -r '.tool_input.command' | { read -r cmd; if echo \"$cmd\" | grep -qE '^gcloud (compute instances delete|storage rm|sql instances delete|container clusters delete|iam service-accounts delete|projects delete|functions delete)'; then echo '{\"decision\":\"block\",\"reason\":\"BLOCKED: destructive GCP operation. Get explicit user approval.\"}'; fi; }"
+      }
+    },
+    {
+      "name": "Block Azure destructive operations",
+      "description": "Blocks az vm delete, az group delete, az storage account delete, and az aks delete",
+      "default": true,
+      "event": "PreToolUse",
+      "matcher": "Bash",
+      "hook": {
+        "type": "command",
+        "command": "jq -r '.tool_input.command' | { read -r cmd; if echo \"$cmd\" | grep -qE '^az (vm delete|group delete|storage account delete|aks delete|sql server delete|webapp delete|functionapp delete)'; then echo '{\"decision\":\"block\",\"reason\":\"BLOCKED: destructive Azure operation. Get explicit user approval.\"}'; fi; }"
+      }
+    }
+  ]
+}

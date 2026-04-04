@@ -1,0 +1,63 @@
+{
+  "name": "cloudflare-safety",
+  "description": "Block destructive Cloudflare Wrangler operations — worker deletion, KV purge, D1 drops, and secret changes",
+  "author": "sieteunoseis",
+  "version": "1.0.0",
+  "hooks": [
+    {
+      "name": "Block worker and pages deletion",
+      "description": "Prevents wrangler delete, wrangler pages project delete, and deployment rollbacks",
+      "default": true,
+      "event": "PreToolUse",
+      "matcher": "Bash",
+      "hook": {
+        "type": "command",
+        "command": "jq -r '.tool_input.command' | { read -r cmd; if echo \"$cmd\" | grep -qE '^(npx )?wrangler (delete|pages project delete|deployments rollback|rollback)'; then echo '{\"decision\":\"block\",\"reason\":\"BLOCKED: wrangler delete/rollback removes deployed workers or pages. Get explicit user approval.\"}'; fi; }"
+      }
+    },
+    {
+      "name": "Block KV namespace deletion and bulk operations",
+      "description": "Prevents wrangler kv namespace delete and kv bulk delete",
+      "default": true,
+      "event": "PreToolUse",
+      "matcher": "Bash",
+      "hook": {
+        "type": "command",
+        "command": "jq -r '.tool_input.command' | { read -r cmd; if echo \"$cmd\" | grep -qE '^(npx )?wrangler kv (namespace delete|bulk delete)'; then echo '{\"decision\":\"block\",\"reason\":\"BLOCKED: wrangler KV delete operation. This removes data permanently.\"}'; fi; }"
+      }
+    },
+    {
+      "name": "Block D1 destructive operations",
+      "description": "Prevents wrangler d1 delete and dangerous SQL via d1 execute",
+      "default": true,
+      "event": "PreToolUse",
+      "matcher": "Bash",
+      "hook": {
+        "type": "command",
+        "command": "jq -r '.tool_input.command' | { read -r cmd; if echo \"$cmd\" | grep -qE '^(npx )?wrangler d1 delete '; then echo '{\"decision\":\"block\",\"reason\":\"BLOCKED: wrangler d1 delete removes the database. Get explicit user approval.\"}'; fi; }"
+      }
+    },
+    {
+      "name": "Block R2 bucket deletion",
+      "description": "Prevents wrangler r2 bucket delete which removes object storage",
+      "default": true,
+      "event": "PreToolUse",
+      "matcher": "Bash",
+      "hook": {
+        "type": "command",
+        "command": "jq -r '.tool_input.command' | { read -r cmd; if echo \"$cmd\" | grep -qE '^(npx )?wrangler r2 bucket delete '; then echo '{\"decision\":\"block\",\"reason\":\"BLOCKED: wrangler r2 bucket delete removes object storage. Get explicit user approval.\"}'; fi; }"
+      }
+    },
+    {
+      "name": "Block secret changes",
+      "description": "Prevents wrangler secret put and delete which modify worker secrets",
+      "default": false,
+      "event": "PreToolUse",
+      "matcher": "Bash",
+      "hook": {
+        "type": "command",
+        "command": "jq -r '.tool_input.command' | { read -r cmd; if echo \"$cmd\" | grep -qE '^(npx )?wrangler (secret|pages secret) (put|delete) '; then echo '{\"decision\":\"block\",\"reason\":\"BLOCKED: wrangler secret modification. Get explicit user approval.\"}'; fi; }"
+      }
+    }
+  ]
+}

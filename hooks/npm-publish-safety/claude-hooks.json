@@ -1,0 +1,52 @@
+{
+  "name": "npm-publish-safety",
+  "description": "Guard npm publish, unpublish, deprecate, and access changes",
+  "author": "sieteunoseis",
+  "version": "1.0.0",
+  "hooks": [
+    {
+      "name": "Block npm unpublish",
+      "description": "Prevents npm unpublish which removes packages from the registry",
+      "default": true,
+      "event": "PreToolUse",
+      "matcher": "Bash",
+      "hook": {
+        "type": "command",
+        "command": "jq -r '.tool_input.command' | { read -r cmd; if echo \"$cmd\" | grep -qE '^npm unpublish'; then echo '{\"decision\":\"block\",\"reason\":\"BLOCKED: npm unpublish removes packages from the registry. This can break downstream consumers.\"}'; fi; }"
+      }
+    },
+    {
+      "name": "Block npm deprecate",
+      "description": "Prevents npm deprecate which marks packages as deprecated for all users",
+      "default": true,
+      "event": "PreToolUse",
+      "matcher": "Bash",
+      "hook": {
+        "type": "command",
+        "command": "jq -r '.tool_input.command' | { read -r cmd; if echo \"$cmd\" | grep -qE '^npm deprecate'; then echo '{\"decision\":\"block\",\"reason\":\"BLOCKED: npm deprecate affects all consumers of this package. Get explicit user approval.\"}'; fi; }"
+      }
+    },
+    {
+      "name": "Block npm access changes",
+      "description": "Prevents npm access which modifies package permissions and visibility",
+      "default": true,
+      "event": "PreToolUse",
+      "matcher": "Bash",
+      "hook": {
+        "type": "command",
+        "command": "jq -r '.tool_input.command' | { read -r cmd; if echo \"$cmd\" | grep -qE '^npm access (set|grant|revoke)'; then echo '{\"decision\":\"block\",\"reason\":\"BLOCKED: npm access modifies package permissions. Get explicit user approval.\"}'; fi; }"
+      }
+    },
+    {
+      "name": "Block npm owner changes",
+      "description": "Prevents npm owner add/rm which changes package ownership",
+      "default": true,
+      "event": "PreToolUse",
+      "matcher": "Bash",
+      "hook": {
+        "type": "command",
+        "command": "jq -r '.tool_input.command' | { read -r cmd; if echo \"$cmd\" | grep -qE '^npm owner (add|rm) '; then echo '{\"decision\":\"block\",\"reason\":\"BLOCKED: npm owner changes affect package ownership. Get explicit user approval.\"}'; fi; }"
+      }
+    }
+  ]
+}

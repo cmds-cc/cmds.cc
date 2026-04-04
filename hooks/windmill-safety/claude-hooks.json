@@ -69,6 +69,17 @@
         "type": "command",
         "command": "jq -r '.tool_input.command' | { read -r cmd; if echo \"$cmd\" | grep -qE '^wmill (script|flow) run '; then echo '{\"decision\":\"block\",\"reason\":\"BLOCKED: wmill script/flow run executes code on the remote instance. Get explicit user approval.\"}'; fi; }"
       }
+    },
+    {
+      "name": "Block reading variables and resources",
+      "description": "Blocks wmill variable get and wmill resource get which can expose secrets and credentials",
+      "default": false,
+      "event": "PreToolUse",
+      "matcher": "Bash",
+      "hook": {
+        "type": "command",
+        "command": "jq -r '.tool_input.command' | { read -r cmd; if echo \"$cmd\" | grep -qE '^wmill (variable|resource) get '; then echo '{\"decision\":\"block\",\"reason\":\"BLOCKED: wmill variable/resource get can expose secrets and credentials. Get explicit user approval.\"}'; fi; }"
+      }
     }
   ]
 }

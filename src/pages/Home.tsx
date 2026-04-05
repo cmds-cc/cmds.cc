@@ -48,7 +48,7 @@ export default function Home() {
               Installable via skills.sh.
             </p>
             <code className="text-xs text-[var(--color-text)]">
-              $ npx skillsadd sieteunoseis/skills.automate.builders
+              $ npx skills add sieteunoseis/skills.automate.builders
             </code>
           </Link>
         </div>

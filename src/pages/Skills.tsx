@@ -71,7 +71,7 @@ const SKILLS = [
   },
 ];
 
-const INSTALL_CMD = "npx skillsadd sieteunoseis/skills.automate.builders";
+const INSTALL_CMD = "npx skills add sieteunoseis/skills.automate.builders";
 
 export default function Skills() {
   return (
@@ -112,7 +112,7 @@ export default function Skills() {
           {SKILLS.map((skill) => (
             <a
               key={skill.name}
-              href={`https://skills.sh/s/sieteunoseis/skills.automate.builders/${skill.name}`}
+              href={`https://skills.sh/sieteunoseis/skills.automate.builders/${skill.name}`}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg p-5 block hover:border-[var(--color-accent)] transition-colors"

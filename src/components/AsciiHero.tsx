@@ -159,18 +159,8 @@ export default function AsciiHero({ text, className }: AsciiHeroProps) {
 
   const handleMouseLeave = useCallback(() => setMousePos(null), []);
 
-  if (!grid || !edges) {
-    return (
-      <pre
-        className={`text-[var(--color-accent)] select-none cursor-default text-4xl sm:text-5xl font-bold ${className ?? ""}`}
-      >
-        {text}
-      </pre>
-    );
-  }
-
   const elapsed = performance.now() - startTimeRef.current;
-  const totalCols = grid[0]?.length || 0;
+  const totalCols = grid?.[0]?.length || 0;
   const revealProgress = Math.min(elapsed / 1800, 1);
   const revealCol = Math.floor(
     revealProgress * revealProgress * (totalCols + 6),
@@ -180,6 +170,7 @@ export default function AsciiHero({ text, className }: AsciiHeroProps) {
   const charH = 10;
 
   const renderedLines = useMemo(() => {
+    if (!grid || !edges) return null;
     return grid.map((row, ri) => {
       const spans: JSX.Element[] = [];
       let buf = "";
@@ -259,6 +250,16 @@ export default function AsciiHero({ text, className }: AsciiHeroProps) {
       );
     });
   }, [grid, edges, frame, phase, revealCol, mousePos]);
+
+  if (!renderedLines) {
+    return (
+      <pre
+        className={`text-[var(--color-accent)] select-none cursor-default text-4xl sm:text-5xl font-bold ${className ?? ""}`}
+      >
+        {text}
+      </pre>
+    );
+  }
 
   return (
     <pre

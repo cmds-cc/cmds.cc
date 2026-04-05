@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>cmds.cc — Claude Code tools</title>
+    <title>cmds.cc — Tools for Claude Code</title>
     <meta
       name="description"
-      content="Hooks, skills, and tools for Claude Code."
+      content="Safety hooks, agent skills, and CLI tools for Claude Code."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,96 +14,9 @@
       href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/src/style.css" />
   </head>
-  <body class="min-h-screen">
-    <!-- Nav -->
-    <nav class="max-w-3xl mx-auto px-6 pt-8 flex items-center justify-between">
-      <a
-        href="/"
-        class="text-[var(--color-accent)] font-bold text-sm hover:opacity-80 transition-opacity"
-        >CMDS.CC</a
-      >
-      <div class="flex items-center gap-6">
-        <a
-          href="/hooks"
-          class="text-xs text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors"
-          >Hooks</a
-        >
-        <a
-          href="/skills"
-          class="text-xs text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors"
-          >Skills</a
-        >
-        <a
-          href="/hooks/docs"
-          class="text-xs text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors"
-          >Docs</a
-        >
-      </div>
-    </nav>
-
-    <header class="max-w-3xl mx-auto px-6 pt-20 pb-16 text-center">
-      <pre
-        class="text-[var(--color-accent)] text-xs sm:text-sm leading-tight mb-8"
-        aria-hidden="true"
-      >
- ██████╗███╗   ███╗██████╗ ███████╗   ██████╗ ██████╗
-██╔════╝████╗ ████║██╔══██╗██╔════╝  ██╔════╝██╔════╝
-██║     ██╔████╔██║██║  ██║███████╗  ██║     ██║
-██║     ██║╚██╔╝██║██║  ██║╚════██║  ██║     ██║
-╚██████╗██║ ╚═╝ ██║██████╔╝███████║  ╚██████╗╚██████╗
- ╚═════╝╚═╝     ╚═╝╚═════╝ ╚══════╝   ╚═════╝ ╚═════╝</pre
-      >
-      <p class="text-lg text-[var(--color-text)] mb-3">Tools for Claude Code</p>
-      <p class="text-sm text-[var(--color-text-muted)] mb-12 max-w-lg mx-auto">
-        Safety hooks, agent skills, and CLI tools — installable with one
-        command.
-      </p>
-    </header>
-
-    <main class="max-w-3xl mx-auto px-6 pb-20">
-      <div class="grid gap-4 sm:grid-cols-2">
-        <a
-          href="/hooks"
-          class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg p-6 hover:border-[var(--color-accent)] transition-colors block"
-        >
-          <h2 class="text-[var(--color-accent)] font-bold mb-2">/hooks</h2>
-          <p class="text-sm text-[var(--color-text-muted)] mb-3">
-            Install Claude Code hooks from any GitHub repo. Safety guardrails,
-            auto-formatting, audit logging, and more.
-          </p>
-          <code class="text-xs text-[var(--color-text)]"
-            >$ npx @cmds-cc/hooks add owner/repo</code
-          >
-        </a>
-        <a
-          href="/skills"
-          class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg p-6 hover:border-[var(--color-accent)] transition-colors block"
-        >
-          <h2 class="text-[var(--color-accent)] font-bold mb-2">/skills</h2>
-          <p class="text-sm text-[var(--color-text-muted)] mb-3">
-            Agent skills for Cisco UC, network engineering, and DevOps.
-            Installable via skills.sh.
-          </p>
-          <code class="text-xs text-[var(--color-text)]"
-            >$ npx skillsadd sieteunoseis/skills.automate.builders</code
-          >
-        </a>
-      </div>
-    </main>
-
-    <footer class="max-w-3xl mx-auto px-6 pb-12 text-center">
-      <p class="text-xs text-[var(--color-text-muted)]">
-        Built by
-        <a
-          href="https://github.com/sieteunoseis"
-          class="hover:text-[var(--color-accent)] transition-colors"
-          >sieteunoseis</a
-        >
-      </p>
-    </footer>
-
-    <script type="module" src="/src/main.ts"></script>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

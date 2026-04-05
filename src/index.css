@@ -10,12 +10,14 @@
   --color-accent: #22d3ee;
 }
 
+html,
+body,
+#root {
+  min-height: 100vh;
+}
+
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-mono);
-}
-
-.copy-btn:hover {
-  color: var(--color-accent);
 }

@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
-import ScrambleText from "../components/ScrambleText";
+import AsciiHero from "../components/AsciiHero";
 
 export default function Home() {
   return (
     <Layout accent="#22d3ee">
       <header className="max-w-3xl mx-auto px-6 pt-20 pb-16 text-center">
-        <ScrambleText
+        <AsciiHero
           text="cmds.cc"
           className="text-4xl sm:text-5xl font-bold leading-tight mb-8 inline-block"
         />

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
-import ScrambleText from "../components/ScrambleText";
+import AsciiHero from "../components/AsciiHero";
 import CopyButton from "../components/CopyButton";
 import type { HookEntry } from "../types";
 
@@ -28,7 +28,7 @@ export default function Hooks() {
   return (
     <Layout accent="#facc15">
       <header className="max-w-3xl mx-auto px-6 pt-20 pb-10 text-center">
-        <ScrambleText
+        <AsciiHero
           text="hooks"
           className="text-4xl sm:text-5xl font-bold leading-tight mb-8 inline-block"
         />

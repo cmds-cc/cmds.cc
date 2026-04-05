@@ -1,5 +1,5 @@
 import Layout from "../components/Layout";
-import ScrambleText from "../components/ScrambleText";
+import AsciiHero from "../components/AsciiHero";
 import CopyButton from "../components/CopyButton";
 
 const SKILLS = [
@@ -77,7 +77,7 @@ export default function Skills() {
   return (
     <Layout accent="#4ade80">
       <header className="max-w-3xl mx-auto px-6 pt-20 pb-10 text-center">
-        <ScrambleText
+        <AsciiHero
           text="skills"
           className="text-4xl sm:text-5xl font-bold leading-tight mb-8 inline-block"
         />

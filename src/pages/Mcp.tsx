@@ -1,5 +1,5 @@
 import Layout from "../components/Layout";
-import AsciiArt from "../components/AsciiArt";
+import ScrambleText from "../components/ScrambleText";
 import CopyButton from "../components/CopyButton";
 
 const SERVERS = [
@@ -26,7 +26,7 @@ export default function Mcp() {
   return (
     <Layout accent="#c084fc">
       <header className="max-w-3xl mx-auto px-6 pt-20 pb-10 text-center">
-        <AsciiArt
+        <ScrambleText
           text="mcp"
           className="text-4xl sm:text-5xl font-bold leading-tight mb-8 inline-block"
         />

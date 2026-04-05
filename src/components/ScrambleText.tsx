@@ -49,7 +49,6 @@ export default function ScrambleText({ text, className }: ScrambleTextProps) {
           if (unresolvedCount <= resolveUpTo) {
             return { ...ch, current: ch.target, resolved: true };
           }
-          // Still scrambling
           return { ...ch, current: randomChar() };
         });
       });
@@ -75,9 +74,8 @@ export default function ScrambleText({ text, className }: ScrambleTextProps) {
       const rect = pre.getBoundingClientRect();
       const style = getComputedStyle(pre);
       const fontSize = parseFloat(style.fontSize);
-      const charWidth = fontSize * 0.6; // monospace approximation
+      const charWidth = fontSize * 0.6;
 
-      // Find approximate character index from cursor position
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       const lineHeight = parseFloat(style.lineHeight) || fontSize * 1.5;
@@ -86,10 +84,9 @@ export default function ScrambleText({ text, className }: ScrambleTextProps) {
       const lineIndex = Math.floor(y / lineHeight);
       const colIndex = Math.floor(x / charWidth);
 
-      // Convert to flat index
       let flatIndex = 0;
       for (let i = 0; i < lineIndex && i < lines.length; i++) {
-        flatIndex += lines[i].length + 1; // +1 for \n
+        flatIndex += lines[i].length + 1;
       }
       flatIndex += colIndex;
 
@@ -111,7 +108,6 @@ export default function ScrambleText({ text, className }: ScrambleTextProps) {
 
   const handleMouseLeave = useCallback(() => {
     if (!resolvedRef.current) return;
-    // Re-resolve all characters with a quick animation
     const startTime = performance.now();
     const duration = 400;
 

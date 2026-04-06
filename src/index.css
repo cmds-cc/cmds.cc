@@ -21,3 +21,27 @@ body {
   color: var(--color-text);
   font-family: var(--font-mono);
 }
+
+.glow-text {
+  color: var(--color-accent);
+  text-shadow:
+    0 0 4px var(--color-accent),
+    0 0 11px color-mix(in srgb, var(--color-accent) 50%, transparent),
+    0 0 19px color-mix(in srgb, var(--color-accent) 25%, transparent);
+  animation: glow-pulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes glow-pulse {
+  0% {
+    text-shadow:
+      0 0 4px var(--color-accent),
+      0 0 11px color-mix(in srgb, var(--color-accent) 50%, transparent),
+      0 0 19px color-mix(in srgb, var(--color-accent) 25%, transparent);
+  }
+  100% {
+    text-shadow:
+      0 0 6px var(--color-accent),
+      0 0 16px color-mix(in srgb, var(--color-accent) 60%, transparent),
+      0 0 28px color-mix(in srgb, var(--color-accent) 30%, transparent);
+  }
+}

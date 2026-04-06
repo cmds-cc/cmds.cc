@@ -45,7 +45,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       : "claude-hooks.json";
     const ghUrl = `https://raw.githubusercontent.com/${owner}/${name}/HEAD/${filePath}`;
     const ghRes = await fetch(ghUrl, {
-      headers: { "User-Agent": "cc-hooks-install" },
+      headers: { "User-Agent": "cmds-cc-hooks" },
     });
 
     if (!ghRes.ok) {

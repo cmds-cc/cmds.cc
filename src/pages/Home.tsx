@@ -19,7 +19,7 @@ export default function Home() {
         </p>
       </header>
 
-      <section className="max-w-5xl mx-auto px-6 pb-20">
+      <section className="max-w-7xl mx-auto px-6 pb-20">
         <div className="grid gap-4 sm:grid-cols-3">
           <Link
             to="/hooks"

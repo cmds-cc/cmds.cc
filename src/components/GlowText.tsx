@@ -40,7 +40,7 @@ interface GlowTextProps {
 
 export default function GlowText({ text, className }: GlowTextProps) {
   const art = ANSI_SHADOW[text.toLowerCase()] || text;
-  const lines = art.split("\n");
+  const artLines = art.split("\n");
 
   const [chars, setChars] = useState(() =>
     [...art].map((ch) => ({
@@ -107,8 +107,8 @@ export default function GlowText({ text, className }: GlowTextProps) {
       const colIndex = Math.floor(x / charWidth);
 
       let flatIndex = 0;
-      for (let i = 0; i < lineIndex && i < lines.length; i++) {
-        flatIndex += lines[i].length + 1;
+      for (let i = 0; i < lineIndex && i < artLines.length; i++) {
+        flatIndex += artLines[i].length + 1;
       }
       flatIndex += colIndex;
 
@@ -125,7 +125,7 @@ export default function GlowText({ text, className }: GlowTextProps) {
         }),
       );
     },
-    [text, lines],
+    [text, artLines],
   );
 
   // Mouse leave — re-resolve
@@ -161,18 +161,50 @@ export default function GlowText({ text, className }: GlowTextProps) {
     animFrameRef.current = requestAnimationFrame(tick);
   }, []);
 
-  const display = chars.map((c) => c.current).join("");
+  const charSize = 7.2; // fixed width per character cell in px
+
+  const renderedLines = artLines.map((line, li) => {
+    let charOffset = 0;
+    const lineChars = [...line];
+    return (
+      <div
+        key={li}
+        style={{ height: "13px", lineHeight: "13px", whiteSpace: "pre" }}
+      >
+        {lineChars.map((_, ci) => {
+          const flatIdx =
+            artLines.slice(0, li).reduce((sum, l) => sum + l.length + 1, 0) +
+            ci;
+          const ch = chars[flatIdx];
+          if (!ch) return null;
+          return (
+            <span
+              key={ci}
+              style={{
+                display: "inline-block",
+                width: `${charSize}px`,
+                textAlign: "center",
+                overflow: "hidden",
+              }}
+            >
+              {ch.current}
+            </span>
+          );
+        })}
+      </div>
+    );
+  });
 
   return (
     <div className="overflow-hidden max-w-full">
-      <pre
+      <div
         ref={preRef}
-        className={`select-none cursor-default glow-text text-[10px] sm:text-xs leading-[1.1] ${className ?? ""}`}
+        className={`select-none cursor-default glow-text text-[10px] sm:text-xs inline-block ${className ?? ""}`}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
-        {display}
-      </pre>
+        {renderedLines}
+      </div>
     </div>
   );
 }

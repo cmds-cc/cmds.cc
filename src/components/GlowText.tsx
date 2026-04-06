@@ -161,30 +161,35 @@ export default function GlowText({ text, className }: GlowTextProps) {
     animFrameRef.current = requestAnimationFrame(tick);
   }, []);
 
-  const charSize = 7.2; // fixed width per character cell in px
+  const maxCols = Math.max(...artLines.map((l) => [...l].length));
+  const cellW = 7;
+  const cellH = 12;
 
   const renderedLines = artLines.map((line, li) => {
-    let charOffset = 0;
     const lineChars = [...line];
     return (
       <div
         key={li}
-        style={{ height: "13px", lineHeight: "13px", whiteSpace: "pre" }}
+        style={{
+          display: "grid",
+          gridTemplateColumns: `repeat(${maxCols}, ${cellW}px)`,
+          height: `${cellH}px`,
+        }}
       >
         {lineChars.map((_, ci) => {
           const flatIdx =
-            artLines.slice(0, li).reduce((sum, l) => sum + l.length + 1, 0) +
-            ci;
+            artLines
+              .slice(0, li)
+              .reduce((sum, l) => [...l].length + 1 + sum, 0) + ci;
           const ch = chars[flatIdx];
-          if (!ch) return null;
+          if (!ch) return <span key={ci} />;
           return (
             <span
               key={ci}
               style={{
-                display: "inline-block",
-                width: `${charSize}px`,
-                textAlign: "center",
                 overflow: "hidden",
+                lineHeight: `${cellH}px`,
+                textAlign: "center",
               }}
             >
               {ch.current}
